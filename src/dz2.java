@@ -21,11 +21,20 @@ public class dz2 {
         Boss b = new Boss(_name, _age);
         for( int i = 0; i< _orgs.size(); i++){
             b.addComp(_orgs.get(i));
+            _orgs.get(i).addBoss(b);
         }
-        boss_list.add(b);cd
+        boss_list.add(b);
+    }
+    public static void addorg(String _name, ArrayList<Boss> _bosses){
+        Organization o = new Organization();
+        o.setName(_name);
+        for(int i = 0; i< _bosses.size(); i++){
+            o.addBoss(_bosses.get(i));
+            _bosses.get(i).addComp(o);
+        }
+        orgs_list.add(o);
 
     }
-    public static void addOrg(String name){}
 
     public static void main(String[] args) {
 
@@ -42,6 +51,9 @@ public class dz2 {
         JButton addEmp = new JButton("Добавить ра... работника");
         JButton addOrg = new JButton("Добавить организацию");
         JButton addBoss = new JButton("Добавить босса");
+        JButton bosses = new JButton("Боссы");
+        JButton slaves = new JButton("Работники");
+
         // Добавляем кнопки на панель
         buttonPanel.add(employeesButton);
         buttonPanel.add(organizationsButton);
@@ -49,8 +61,13 @@ public class dz2 {
         buttonPanel.add(addEmp);
         buttonPanel.add(addOrg);
         buttonPanel.add(addBoss);
+        buttonPanel.add(bosses);
+        buttonPanel.add(slaves);
+
         // Добавляем панель на главное окно
         mainFrame.add(buttonPanel, BorderLayout.CENTER);
+
+//--------------------------------------------------------------------------------
         ActionListener buttonActionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -76,6 +93,9 @@ public class dz2 {
                         infoLabel.append("--------------\n");
                         infoLabel.append("Name- "+slave_list.get(i).getName()+"\n");
                         infoLabel.append("experience - "+slave_list.get(i).getExp()+"\n");
+                        infoLabel.append("dream job - "+slave_list.get(i).getDream()+"\n");
+                        infoLabel.append("desired salary - "+slave_list.get(i).GetDesiredSalary()+"\n");
+                        infoLabel.append("hierd - "+ slave_list.get(i).getstatus()+"\n");
                         infoLabel.append("--------------\n");
                     }
                     //System.out.println(ans);
@@ -86,9 +106,9 @@ public class dz2 {
                     for(int i =0; i< boss_list.size(); i++){
                         infoLabel.append("--------------\n");
                         infoLabel.append("Name - "+boss_list.get(i).getName()+"\n");
-                        infoLabel.append("experience - "+boss_list.get(i).getAge()+"\n");
+                        infoLabel.append("age - "+boss_list.get(i).getAge()+"\n");
                         for(int j = 0; j< boss_list.get(i).getComps().size();j++){
-                            infoLabel.append(boss_list.get(i).getComps().get(j)+"\n");
+                            infoLabel.append(boss_list.get(i).getComps().get(j).getName()+"\n");
                         }
                         infoLabel.append("--------------\n");
                     }
@@ -96,7 +116,23 @@ public class dz2 {
                     infoLabel.setEditable(false);
                 }
                 if (e.getSource() == organizationsButton) {
-                    infoLabel.append("босс");
+                    for(int i =0; i< orgs_list.size(); i++){
+                        infoLabel.append("--------------\n");
+                        infoLabel.append("Name - "+orgs_list.get(i).getName()+"\n");
+                        for(int j = 0; j< orgs_list.get(i).getBosses().size();j++){
+                            infoLabel.append(orgs_list.get(i).getBosses().get(j).getName()+"\n");
+                        }
+                        infoLabel.append("вакансии:\n");
+                        for(int j = 0; j<orgs_list.get(i).getVacancies().size(); j++){
+                            infoLabel.append(orgs_list.get(i).getVacancies().get(j)+"\n");
+                        }
+                        infoLabel.append("Работники: \n");
+                        for(int j = 0; j<orgs_list.get(i).getSlaves().size(); j++){
+                            infoLabel.append(orgs_list.get(i).getSlaves().get(j).getName()+"\n");
+                        }
+                        infoLabel.append("--------------\n");
+                    }
+                    //System.out.println(ans);
                     infoLabel.setEditable(false);
                 }
                 // Добавляем метку и кнопку на окно
@@ -108,10 +144,11 @@ public class dz2 {
                 infoFrame.setVisible(true);
             }
         };
+//--------------------------------------------------------------------------------
         employeesButton.addActionListener(buttonActionListener);
         organizationsButton.addActionListener(buttonActionListener);
         bossesButton.addActionListener(buttonActionListener);
-
+//--------------------------------------------------------------------------------
         ActionListener newEmp = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -175,6 +212,7 @@ public class dz2 {
         };
         addEmp.addActionListener(newEmp);
 
+//--------------------------------------------------------------------------------
         ActionListener newBoss = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -255,7 +293,7 @@ public class dz2 {
             }
         };
         addBoss.addActionListener(newBoss);
-
+//--------------------------------------------------------------------------------
         ActionListener newOrg = new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -265,24 +303,49 @@ public class dz2 {
                 JTextField nameField = new JTextField(10);
 
                 JPanel addOrgPanel = new JPanel();
-                addOrgPanel.setLayout(new GridLayout(slave_list.size()+1, 1));
+                addOrgPanel.setLayout(new GridLayout(slave_list.size() + 1, 1));
 
                 addOrgPanel.add(new JLabel("Имя:"));
                 addOrgPanel.add(nameField);
                 addOrgPanel.add(new JLabel("боссы:"));
 
 
+
                 addOrgFrame.add(addOrgPanel);
 
-                ArrayList <JCheckBox> checkBoxes = new ArrayList<JCheckBox>();
-                for (int i=0; i < slave_list.size(); i++){
-                    checkBoxes.add(new JCheckBox(slave_list.get(i).getName()));
-                    addOrgPanel.add(checkBoxes.get(i));
+                ArrayList<JCheckBox> checkBoxes = new ArrayList<JCheckBox>();
+                ArrayList<Boss> selected = new ArrayList<Boss>();
+
+                for (int i = 0; i < boss_list.size(); i++) {
+                    JCheckBox c = new JCheckBox(boss_list.get(i).getName());
+                    c.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            JCheckBox cb = (JCheckBox) e.getSource();
+                            if (cb.isSelected()) {
+                                for (int i = 0; i < boss_list.size(); i++) {
+                                    if (boss_list.get(i).getName() == cb.getText()) {
+                                        selected.add(boss_list.get(i));
+                                    }
+                                }
+
+                            } else {
+                                //for(int i = 0; i< orgs_list.size();i++){
+                                //if (orgs_list.get(i).getName() == cb.getText()){
+                                //selected.remove();
+                                //}
+                                //}
+                            }
+
+                        }
+                    });
+
+                    checkBoxes.add(c);
+                    addOrgPanel.add(c);
                 }
 
-
-
                 JButton backButton = new JButton("Назад");
+                JButton enter = new JButton("Добавить");
 
                 // Обработчик события для кнопки "Назад"
                 backButton.addActionListener(new ActionListener() {
@@ -292,13 +355,242 @@ public class dz2 {
                         mainFrame.setVisible(true);
                     }
                 });
+                enter.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        addorg(nameField.getText(), selected);
+
+                        addOrgFrame.dispose(); // Закрываем текущее окно
+                        mainFrame.setVisible(true);
+                    }
+                });
 
                 addOrgFrame.add(backButton, BorderLayout.SOUTH);
+                addOrgFrame.add(enter, BorderLayout.EAST);
                 mainFrame.setVisible(false);
                 addOrgFrame.setVisible(true);
             }
         };
         addOrg.addActionListener(newOrg);
+
+//--------------------------------------------------------------------------------
+
+        ActionListener bossbutton = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame f = new JFrame("Боссовская");
+                f.setSize(500,500);
+
+                ArrayList <JButton> orgbut = new ArrayList<JButton>();
+
+                JPanel butpanel = new JPanel();
+                butpanel.setLayout(new GridLayout(boss_list.size() + 1, 1));
+
+                for(int i=0; i < boss_list.size(); i++){
+
+                    JButton _b = new JButton(boss_list.get(i).getName());
+                    Boss sellected_boss = boss_list.get(i);
+                    _b.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            JFrame subf = new JFrame("(Игро)Оргии");
+                            subf.setSize(500,500);
+
+                            JPanel subbutpanel = new JPanel();
+                            subbutpanel.setLayout(new GridLayout (sellected_boss.getComps().size() + 1, 1));
+
+                            //System.out.println(sellected_boss.getComps().size());
+
+                            for(int j = 0; j< sellected_boss.getComps().size(); j++){
+                                Organization sellected_comp = sellected_boss.getComps().get(j);
+                                //System.out.println(j);
+                                JButton _subb = new JButton(sellected_comp.getName());
+                                subbutpanel.add(_subb);
+                                _subb.addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                      JFrame subsubf = new JFrame("Пожалуйста, не кликай дальше");
+                                      subsubf.setSize(500, 500);
+
+                                      JPanel subsubpanel = new JPanel();
+                                      subsubpanel.setLayout(new GridLayout(4,1));
+
+                                      JButton addvac = new JButton("Добавить вакансию");
+                                      JButton testslave = new JButton("Нанять раба");
+                                      JButton sellOrg = new JButton("Продать бизнесс");
+                                      JButton killslave = new JButton("Уволить роботягу");
+
+                                      addvac.addActionListener(new ActionListener() {
+                                          @Override
+                                          public void actionPerformed(ActionEvent e) {
+                                              JFrame vacf = new JFrame("Перестань пользоваться этими кнопками");
+                                              vacf.setSize(500, 500);
+
+                                              JTextField vacname = new JTextField();
+                                              JTextField reqexp = new JTextField();
+                                              JTextField salary = new JTextField();
+
+                                              JPanel vacp = new JPanel();
+                                              vacp.setLayout(new GridLayout(4, 2));
+
+                                              vacp.add(new JLabel("Название вакансии: "));
+                                              vacp.add(vacname);
+                                              vacp.add(new JLabel("Требуемый опыт: "));
+                                              vacp.add(reqexp);
+                                              vacp.add(new JLabel("Зарплата: "));
+                                              vacp.add(salary);
+
+                                              JButton enter = new JButton("добавить");
+                                              //добавление вакансии
+                                              enter.addActionListener(new ActionListener() {
+                                                  @Override
+                                                  public void actionPerformed(ActionEvent e) {
+                                                      sellected_comp.addVacancy(vacname.getText(), Integer.parseInt(reqexp.getText()), Integer.parseInt(salary.getText()));
+                                                      vacf.dispose();
+                                                  }
+                                              });
+                                              vacp.add(enter);
+
+                                              vacf.add(vacp);
+                                              vacf.setVisible(true);
+
+                                          }
+                                      });
+                                      testslave.addActionListener(new ActionListener() {
+                                          @Override
+                                          public void actionPerformed(ActionEvent e) {
+                                              JFrame results = new JFrame();
+                                              results.setSize(500, 500);
+
+                                              JTextArea ans = new JTextArea();
+
+                                              for(int k = 0; k< slave_list.size(); k++){
+
+                                                  ans.append(sellected_boss.test(slave_list.get(k), sellected_comp));
+                                              }
+                                              results.add(ans);
+                                              results.setVisible(true);
+                                          }
+                                      });
+                                      sellOrg.addActionListener(new ActionListener() {
+                                          @Override
+                                          public void actionPerformed(ActionEvent e) {
+
+                                              sellected_boss.sellComp(sellected_comp);
+                                              sellected_comp.dropBoss(sellected_boss);
+                                          }
+                                      });
+                                      killslave.addActionListener(new ActionListener() {
+                                          @Override
+                                          public void actionPerformed(ActionEvent e) {
+                                              JFrame hit_list_f = new JFrame();
+                                              hit_list_f.setSize(500, 500);
+
+                                              ArrayList <Employee> hit_list = new ArrayList<Employee>();
+                                              JPanel p = new JPanel();
+                                              p.setLayout(new GridLayout(sellected_comp.getSlaves().size()+1, 1));
+
+                                              for(int i = 0; i< sellected_comp.getSlaves().size(); i++){
+                                                  Employee selected_emp = sellected_comp.getSlaves().get(i);
+                                                  JCheckBox j = new JCheckBox(selected_emp.getName());
+                                                  p.add(j);
+                                                  j.addActionListener(new ActionListener() {
+                                                      @Override
+                                                      public void actionPerformed(ActionEvent e) {
+                                                          hit_list.add(selected_emp);
+                                                      }
+                                                  });
+                                              }
+
+                                              JButton enter =  new JButton("Удалить выбранных");
+                                              enter.addActionListener(new ActionListener() {
+                                                  @Override
+                                                  public void actionPerformed(ActionEvent e) {
+                                                      for(int i = 0; i< hit_list.size(); i++){
+                                                          sellected_boss.killSlave(hit_list.get(i));
+                                                      }
+                                                      hit_list_f.setVisible(false);
+                                                  }
+                                              });
+                                              p.add(enter);
+
+                                              hit_list_f.add(p);
+                                              hit_list_f.setVisible(true);
+                                          }
+                                      });
+
+                                      subsubpanel.add(addvac);
+                                      subsubpanel.add(testslave);
+                                      subsubpanel.add(sellOrg);
+                                      subsubpanel.add(killslave);
+
+                                      subsubf.add(subsubpanel);
+                                      subsubf.setVisible(true);
+                                      subf.setVisible(false);
+                                    }
+                                });
+                                System.out.println("i was here");
+
+                            }
+                            System.out.println("im here");
+                            subf.add(subbutpanel);
+                            subf.setVisible(true);
+                        }
+                    });
+                    butpanel.add(_b);
+                }
+
+                //butpanel.add(new JButton("test"));
+                f.add(butpanel);
+                f.setVisible(true);
+                //mainFrame.setVisible(false);
+            }
+        };
+        bosses.addActionListener(bossbutton);
+
+        ActionListener slavebutton = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame f = new JFrame("Работяжная");
+                f.setSize(500,500);
+
+                JPanel p = new JPanel();
+                p.setLayout(new GridLayout(slave_list.size()+1, 1));
+
+                for(int i = 0; i< slave_list.size(); i++){
+                    Employee selected_slave = slave_list.get(i);
+                    JButton b = new JButton(selected_slave.getName());
+
+                    b.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            JFrame subf = new JFrame("Работяжная");
+                            subf.setSize(500,500);
+
+                            JPanel subp = new JPanel();
+                            subp.setLayout(new GridLayout(1, 1));
+
+                            JButton free_at_last = new JButton("Стать свободным");
+                            free_at_last.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    selected_slave.imleavin();
+                                    subf.setVisible(false);
+                                }
+                            });
+                            subp.add(free_at_last);
+                            subf.add(subp);
+                            subf.setVisible(true);
+                        }
+                    });
+                    p.add(b);
+                }
+                f.add(p);
+                f.setVisible(true);
+            }
+        };
+
+        slaves.addActionListener(slavebutton);
 
             // Отображаем главное окно
         mainFrame.setVisible(true);

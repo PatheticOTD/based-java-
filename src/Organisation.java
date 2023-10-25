@@ -3,7 +3,7 @@ import java.util.List;
 
 class Organization {
     private String name = new String();                         // Имя
-    private List<String> owners = new ArrayList<String>();      // Владельцы
+    private List<Boss> owners = new ArrayList<Boss>();      // Владельцы
     private List<Employee> slaves = new ArrayList<Employee>();  // Смузихлебы
 
     private List<String> vacancies = new ArrayList<String>();           // Списки с нужной инфой для открытых вакансий
@@ -22,10 +22,11 @@ class Organization {
         return this.name;
     }
     //работа с владельцами
-    public void addBoss(String boss_name){
-        owners.add(boss_name);
+    public void addBoss(Boss b){
+        owners.add(b);
     }
-    public List<String> getBosses(){
+    public void dropBoss(Boss b){owners.remove(b);}
+    public List<Boss> getBosses(){
         return owners;
     }
     // Работа с рабочими

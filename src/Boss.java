@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 class Boss extends Person {
      private List<Organization> companies = new ArrayList<Organization>(); 
@@ -18,7 +19,7 @@ class Boss extends Person {
             var salary = companies.get(i).getOfferedSalary();
 
             for (int j = 0; j < vac.size(); j++){ // пробегаемся по вакансиям
-                if ((_emp.getDream() == vac.get(j)) & (_emp.getstatus() == false) & (req_exp.get(j) <= _emp.getExp()) & (_emp.GetDesiredSalary() <= salary.get(j))){
+                if (Objects.equals(_emp.getDream(), vac.get(j)) & (_emp.getstatus() == false) & (req_exp.get(j) <= _emp.getExp()) & (_emp.GetDesiredSalary() <= salary.get(j))){
                     System.out.println("Employee "+ _emp.getName() + " ready for " + vac.get(j));
                     _emp.hired(companies.get(i)); // Нанимаем чела. Теперь на другие вакансии его не нанять
                     companies.get(i).addSlave(_emp);
@@ -28,6 +29,27 @@ class Boss extends Person {
             }
                 
         }    
+    }
+    public String test(Employee e, Organization o){
+
+        var vac = o.getVacancies(); // модные сокращения
+        var req_exp = o.getRequiredExperience();
+        var salary = o.getOfferedSalary();
+
+        for (int i = 0; i < vac.size(); i++){ // пробегаемся по вакансиям
+            System.out.println(e.getDream()+" == "+ vac.get(i) + " - "+ (e.getDream() == vac.get(i)) +"\n");
+            System.out.println(e.getExp()+" == "+ req_exp.get(i) + " - "+ (req_exp.get(i) <= e.getExp()) +"\n");
+            System.out.println(e.GetDesiredSalary()+" == "+ salary.get(i) + " - "+ (e.GetDesiredSalary() <= salary.get(i)) +"\n");
+
+            if (Objects.equals(e.getDream(), vac.get(i)) & (e.getstatus() == false) & (req_exp.get(i) <= e.getExp()) & (e.GetDesiredSalary() <= salary.get(i))){
+                var vname = vac;
+                e.hired(o); // Нанимаем чела. Теперь на другие вакансии его не нанять
+                companies.get(i).addSlave(e);
+                o.changeVacStatus(vac.get(i)); // итай компании джей вакансия становится неактивной
+                return ("Employee "+ e.getName() + " ready for " + vname);
+            }
+        }
+        return "Похоже, что никто не подошел";
     }
     public void killSlave(Employee emp){ // Тот, кого мы ищем, чтобы уволить
         for(int i = 0; i< companies.size(); i++){ // проходимся по компаниям
@@ -43,7 +65,7 @@ class Boss extends Person {
 
     public void addComp(Organization comp){ // Добавление компаний
         this.companies.add(comp);
-        comp.addBoss(getName());
+
         
         
 
@@ -55,7 +77,7 @@ class Boss extends Person {
     }
     public void sellComp(Organization comp){ // Удаление компаний
         for (int i = 0; i < companies.size(); i++){
-            if (comp.getName() == companies.get(i).getName()){
+            if (comp == companies.get(i)){
                 companies.remove(i);
                 break;
             }
