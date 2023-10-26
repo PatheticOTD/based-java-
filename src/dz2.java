@@ -180,9 +180,18 @@ public class dz2 {
                 addButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        addslave(nameField.getText(), Integer.parseInt(ageField.getText()), Integer.parseInt(experienceField.getText()),  Integer.parseInt(salaryField.getText()), dreamJobField.getText());
-                        addEmployeeFrame.dispose();
-                        mainFrame.setVisible(true);
+                        try{
+                            addslave(nameField.getText(), Integer.parseInt(ageField.getText()), Integer.parseInt(experienceField.getText()),  Integer.parseInt(salaryField.getText()), dreamJobField.getText());
+                            addEmployeeFrame.dispose();
+                            mainFrame.setVisible(true);
+                        }
+                        catch(Exception ex){
+                            JFrame woops = new JFrame();
+                            woops.setSize(200, 200);
+                            woops.add(new JTextArea("Неправильно набран номер"));
+                            woops.setVisible(true);
+                        }
+
                     }
                 });
                 JPanel addEmployeePanel = new JPanel();
@@ -276,9 +285,16 @@ public class dz2 {
                 enter.addActionListener(new ActionListener(){
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        addboss(nameField.getText(), Integer.parseInt(ageField.getText()), selected);
-                        addbossframe.dispose(); // Закрываем текущее окно
-                        mainFrame.setVisible(true);
+                        try {
+                            addboss(nameField.getText(), Integer.parseInt(ageField.getText()), selected);
+                            addbossframe.dispose(); // Закрываем текущее окно
+                            mainFrame.setVisible(true);
+                        }catch(Exception ex){
+                            JFrame woops = new JFrame();
+                            woops.setSize(200, 200);
+                            woops.add(new JTextArea("Неправильно набран номер"));
+                            woops.setVisible(true);
+                        }
                     }
                 });
 
