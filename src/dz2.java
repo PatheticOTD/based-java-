@@ -36,6 +36,7 @@ public class dz2 {
 
     }
 
+
     public static void main(String[] args) {
 
             // Создаем главное окно
@@ -115,7 +116,7 @@ public class dz2 {
                     //System.out.println(ans);
                     infoLabel.setEditable(false);
                 }
-                if (e.getSource() == organizationsButton) {
+                /*if (e.getSource() == organizationsButton) {
                     for(int i =0; i< orgs_list.size(); i++){
                         infoLabel.append("--------------\n");
                         infoLabel.append("Name - "+orgs_list.get(i).getName()+"\n");
@@ -134,7 +135,7 @@ public class dz2 {
                     }
                     //System.out.println(ans);
                     infoLabel.setEditable(false);
-                }
+                }*/
                 // Добавляем метку и кнопку на окно
                 infoFrame.add(infoLabel, BorderLayout.CENTER);
                 infoFrame.add(backButton, BorderLayout.SOUTH);
@@ -145,9 +146,155 @@ public class dz2 {
             }
         };
 //--------------------------------------------------------------------------------
-        employeesButton.addActionListener(buttonActionListener);
-        organizationsButton.addActionListener(buttonActionListener);
-        bossesButton.addActionListener(buttonActionListener);
+        employeesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame rozes = new JFrame();
+                rozes.setSize(500, 500);
+
+                JPanel p = new JPanel();
+                p.setLayout(new GridLayout(20,20));
+
+                JComboBox cb = new JComboBox();
+                for(int i =0; i<slave_list.size(); i++){
+                    cb.addItem(slave_list.get(i).getName());
+                }
+                JButton enter = new JButton("выбрать");
+                enter.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JFrame subrozes = new JFrame();
+                        subrozes.setSize(500, 500);
+
+                        JTextArea ans = new JTextArea();
+
+                        for(int i =0; i< slave_list.size(); i++) {
+                            if (slave_list.get(i).getName() == cb.getSelectedItem()) {
+                                ans.append("--------------\n");
+                                ans.append("Name- " + slave_list.get(i).getName() + "\n");
+                                ans.append("experience - " + slave_list.get(i).getExp() + "\n");
+                                ans.append("dream job - " + slave_list.get(i).getDream() + "\n");
+                                ans.append("desired salary - " + slave_list.get(i).GetDesiredSalary() + "\n");
+                                ans.append("hierd - " + slave_list.get(i).getstatus() + "\n");
+                                ans.append("--------------\n");
+                            }
+                        }
+                        subrozes.add(ans);
+                        subrozes.setVisible(true);
+                        rozes.setVisible(false);
+                    }
+                });
+                p.add(cb);
+                p.add(enter);
+                rozes.add(p);
+                rozes.setVisible(true);
+
+
+            }
+        });
+        organizationsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame rozes = new JFrame();
+                rozes.setSize(500, 500);
+
+                JPanel p = new JPanel();
+                p.setLayout(new GridLayout(20,20));
+
+                JComboBox cb = new JComboBox();
+                for(int i =0; i<orgs_list.size(); i++){
+                    cb.addItem(orgs_list.get(i).getName());
+                }
+                JButton enter = new JButton("выбрать");
+                enter.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JFrame subrozes = new JFrame();
+                        subrozes.setSize(500, 500);
+
+                        JTextArea ans = new JTextArea();
+
+                        for(int i = 0; i< orgs_list.size(); i++){
+                            if (orgs_list.get(i).getName() == cb.getSelectedItem()){
+                                ans.append("--------------------------------\n");
+                                ans.append(orgs_list.get(i).getName()+"\n");
+                                ans.append("-------------bossы--------------\n");
+                                for(int j = 0; j < orgs_list.get(i).getBosses().size(); j++){
+                                    ans.append(orgs_list.get(i).getBosses().get(j).getName()+"\n");
+                                }
+                                ans.append("-------------Работники----------\n");
+                                for(int j = 0; j < orgs_list.get(i).getSlaves().size(); j++){
+                                    ans.append(orgs_list.get(i).getSlaves().get(j).getName()+"\n");
+                                }
+                                ans.append("-------------Вакансии-----------\n");
+                                    orgs_list.get(i).info();
+
+                                ans.append(orgs_list.get(i).getName()+"\n");
+
+                            }
+                        }
+                        subrozes.add(ans);
+                        subrozes.setVisible(true);
+                        rozes.setVisible(false);
+                    }
+                });
+                p.add(cb);
+                p.add(enter);
+                rozes.add(p);
+                rozes.setVisible(true);
+
+
+            }
+        });
+        bossesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame rozes = new JFrame();
+                rozes.setSize(500, 500);
+
+                JPanel p = new JPanel();
+                p.setLayout(new GridLayout(20,20));
+
+                JComboBox cb = new JComboBox();
+                for(int i =0; i<boss_list.size(); i++){
+                    cb.addItem(boss_list.get(i).getName());
+                }
+                JButton enter = new JButton("выбрать");
+                enter.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JFrame subrozes = new JFrame();
+                        subrozes.setSize(500, 500);
+
+                        JTextArea ans = new JTextArea();
+
+                        for(int i = 0; i< boss_list.size(); i++){
+                            if (boss_list.get(i).getName() == cb.getSelectedItem()){
+                                ans.append("--------------------------------\n");
+                                ans.append(boss_list.get(i).getName()+"\n");
+                                ans.append("-------------Оргии--------------\n");
+                                for(int j = 0; j < boss_list.get(i).getComps().size(); j++){
+                                    ans.append(boss_list.get(i).getComps().get(j).getName()+"\n");
+                                }
+                                orgs_list.get(i).info();
+
+                                ans.append(orgs_list.get(i).getName()+"\n");
+
+                            }
+                        }
+                        subrozes.add(ans);
+                        subrozes.setVisible(true);
+                        rozes.setVisible(false);
+                    }
+                });
+                p.add(cb);
+                p.add(enter);
+                rozes.add(p);
+                rozes.setVisible(true);
+
+
+            }
+        });
 //--------------------------------------------------------------------------------
         ActionListener newEmp = new ActionListener() {
             @Override
@@ -374,10 +521,18 @@ public class dz2 {
                 enter.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        addorg(nameField.getText(), selected);
+                        try {
+                            addorg(nameField.getText(), selected);
 
-                        addOrgFrame.dispose(); // Закрываем текущее окно
-                        mainFrame.setVisible(true);
+                            addOrgFrame.dispose(); // Закрываем текущее окно
+                            mainFrame.setVisible(true);
+                        }catch(Exception ex){
+                            JFrame woops = new JFrame();
+                            woops.setSize(200, 200);
+                            woops.add(new JTextArea("Неправильно набран номер"));
+                            woops.setVisible(true);
+                        }
+
                     }
                 });
 

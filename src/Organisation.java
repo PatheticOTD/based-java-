@@ -6,9 +6,7 @@ class Organization {
     private List<Boss> owners = new ArrayList<Boss>();      // Владельцы
     private List<Employee> slaves = new ArrayList<Employee>();  // Смузихлебы
 
-    private List<String> vacancies = new ArrayList<String>();           // Списки с нужной инфой для открытых вакансий
-    private List<Integer> offeredSalary = new ArrayList<Integer>();
-    private List<Integer> requiredExperience = new ArrayList<Integer>();
+    Vacancy vacs = new Vacancy();
     
     private List<String> _vacancies = new ArrayList<String>();           // Списки с нужной инфой для закрытых вакансий
     private List<Integer> _offeredSalary = new ArrayList<Integer>();    // При увольнении сотрудника вакансии из этой ...
@@ -38,35 +36,30 @@ class Organization {
     }
     // получение инфы о вакансиях
     public List<String> getVacancies() {
-        return vacancies;
+        return vacs.getVacancies();
     }
     public List<Integer> getRequiredExperience() {
-        return requiredExperience;
+        return vacs.getRequiredExperience();
     }
     public List<Integer> getOfferedSalary() {
-        return offeredSalary;
+        return vacs.getOfferedSalary();
     }
 
 
     // добавление вакансий
     public void addVacancy(String vacancy, int requiredExperience, int offeredSalary) {
-        vacancies.add(vacancy);
-        this.requiredExperience.add(requiredExperience);
-        this.offeredSalary.add(offeredSalary);
+        vacs.addvac(vacancy, requiredExperience, offeredSalary);
     }
     // изменение статуса вакансии
     public void changeVacStatus(String vacancy, String what_to_do){ 
         if (what_to_do == "open-to-close"){     // Если я хочу переместить вакансию с открытой в закрытую (иногда такое бывает)
-            for(int i = 0; i< this.vacancies.size(); i++){
-                if (this.vacancies.get(i) == vacancy){
+            for(int i = 0; i< this.vacs.getVacancies().size(); i++){
+                if (this.vacs.getVacancies().get(i) == vacancy){
 
-                    this._vacancies.add(this.vacancies.get(i));
+                    /*this._vacancies.add(this.vacancies.get(i));
                     this._requiredExperience.add(this.requiredExperience.get(i)); // добавляем в закрытые
-                    this._offeredSalary.add(this.offeredSalary.get(i));
-
-                    this.vacancies.remove(i);
-                    this.requiredExperience.remove(i); // удаляем из открытых
-                    this.offeredSalary.remove(i);
+                    this._offeredSalary.add(this.offeredSalary.get(i));*/
+                    this.vacs.remvac(vacancy);
                 }
             }
         }
@@ -74,13 +67,11 @@ class Organization {
             for(int i = 0; i< this._vacancies.size(); i++){
                 if (this._vacancies.get(i) == vacancy){
 
-                    this.vacancies.add(this._vacancies.get(i));
-                    this.requiredExperience.add(this._requiredExperience.get(i)); // добавляем в открытые
-                    this.offeredSalary.add(this._offeredSalary.get(i));
+                    //но мне больше не нужно
 
-                    this._vacancies.remove(i);
+                    /*this._vacancies.remove(i);
                     this._requiredExperience.remove(i); // удаляем из закрытых
-                    this._offeredSalary.remove(i);
+                    this._offeredSalary.remove(i);*/
                 }
             }
         }
@@ -91,25 +82,8 @@ class Organization {
         changeVacStatus(vacancy, "open-to-close");
     }
 
-    public void info(){
-        System.out.println("----"+this.name+"----");
-        System.out.println("OWNERS:");
-        for ( int i = 0; i< owners.size(); i++){
-            System.out.println(owners.get(i));
-        }
-        System.out.println("EMPLOYEES:");
-        for ( int i = 0; i< this.slaves.size(); i++){
-            System.out.println(this.slaves.get(i).getName());
-        }
-        System.out.println("VACANCIES:");
-        for ( int i = 0; i< vacancies.size(); i++){
-            System.out.println(vacancies.get(i));
-        }
-        System.out.println("Closed VACANCIES:");
-        for ( int i = 0; i< _vacancies.size(); i++){
-            System.out.println(_vacancies.get(i));
-        }
-        System.out.println("-----------------------------------------");
+    public String info(){
+        return vacs.show_vacs();
 
     }
     

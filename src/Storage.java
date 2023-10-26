@@ -21,4 +21,6 @@ public class Storage {
     public ArrayList<Organization> get_orgs(){
         return orgs_list;
     }
+
+    //здесь неначто смотреть
 }
