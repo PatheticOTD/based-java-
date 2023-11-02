@@ -32,20 +32,18 @@ class Boss extends Person {
     }
     public String test(Employee e, Organization o){
 
-        var vac = o.getVacancies(); // модные сокращения
-        var req_exp = o.getRequiredExperience();
-        var salary = o.getOfferedSalary();
 
-        for (int i = 0; i < vac.size(); i++){ // пробегаемся по вакансиям
-            System.out.println(e.getDream()+" == "+ vac.get(i) + " - "+ (e.getDream() == vac.get(i)) +"\n");
-            System.out.println(e.getExp()+" == "+ req_exp.get(i) + " - "+ (req_exp.get(i) <= e.getExp()) +"\n");
-            System.out.println(e.GetDesiredSalary()+" == "+ salary.get(i) + " - "+ (e.GetDesiredSalary() <= salary.get(i)) +"\n");
 
-            if (Objects.equals(e.getDream(), vac.get(i)) & (e.getstatus() == false) & (req_exp.get(i) <= e.getExp()) & (e.GetDesiredSalary() <= salary.get(i))){
-                var vname = vac;
+        for (int i = 0; i < o.getVacancies().size(); i++){ // пробегаемся по вакансиям
+            System.out.println(e.getDream()+" == "+ o.getVacancies().get(i) + " - "+ (e.getDream() == o.getVacancies().get(i)) +"\n");
+            System.out.println(e.getExp()+" == "+ o.getRequiredExperience().get(i) + " - "+ (o.getRequiredExperience().get(i) <= e.getExp()) +"\n");
+            System.out.println(e.GetDesiredSalary()+" == "+ o.getOfferedSalary().get(i) + " - "+ (e.GetDesiredSalary() <= o.getOfferedSalary().get(i)) +"\n");
+
+            if (Objects.equals(e.getDream(), o.getVacancies().get(i)) & (e.getstatus() == false) & (o.getRequiredExperience().get(i) <= e.getExp()) & (e.GetDesiredSalary() <= o.getOfferedSalary().get(i))){
+                var vname = o.getVacancies();
                 e.hired(o); // Нанимаем чела. Теперь на другие вакансии его не нанять
                 companies.get(i).addSlave(e);
-                o.changeVacStatus(vac.get(i)); // итай компании джей вакансия становится неактивной
+                o.changeVacStatus(o.getVacancies().get(i)); // итай компании джей вакансия становится неактивной
                 return ("Employee "+ e.getName() + " ready for " + vname);
             }
         }

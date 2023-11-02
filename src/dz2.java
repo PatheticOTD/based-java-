@@ -10,10 +10,12 @@ import java.util.List;
 
 
 public class dz2 {
-    static ArrayList <Employee> slave_list = new ArrayList<Employee>();
+    static Storage storage = new Storage();
+
+   /* static ArrayList <Employee> slave_list = new ArrayList<Employee>();
     static ArrayList <Organization> orgs_list = new ArrayList<Organization>();
-    static ArrayList<Boss> boss_list = new ArrayList<Boss>();
-    public static void addslave(String name, int age, int exp, int dsal, String dj){
+    static ArrayList<Boss> boss_list = new ArrayList<Boss>();*/
+    /*public static void addslave(String name, int age, int exp, int dsal, String dj){
         Employee emp = new Employee(name, age, exp, dsal, dj);
         slave_list.add(emp);
     }
@@ -34,12 +36,12 @@ public class dz2 {
         }
         orgs_list.add(o);
 
-    }
+    }*/
 
 
     public static void main(String[] args) {
 
-            // Создаем главное окно
+        // Создаем главное окно
         JFrame mainFrame = new JFrame("Информация о персонале");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(400, 200);
@@ -90,13 +92,13 @@ public class dz2 {
                 // Устанавливаем текст для метки в зависимости от нажатой кнопки
                 if (e.getSource() == employeesButton) {
                     //String ans = new String();
-                    for(int i =0; i< slave_list.size(); i++){
+                    for(int i =0; i< storage.get_slaves().size(); i++){
                         infoLabel.append("--------------\n");
-                        infoLabel.append("Name- "+slave_list.get(i).getName()+"\n");
-                        infoLabel.append("experience - "+slave_list.get(i).getExp()+"\n");
-                        infoLabel.append("dream job - "+slave_list.get(i).getDream()+"\n");
-                        infoLabel.append("desired salary - "+slave_list.get(i).GetDesiredSalary()+"\n");
-                        infoLabel.append("hierd - "+ slave_list.get(i).getstatus()+"\n");
+                        infoLabel.append("Name- "+storage.get_slaves().get(i).getName()+"\n");
+                        infoLabel.append("experience - "+storage.get_slaves().get(i).getExp()+"\n");
+                        infoLabel.append("dream job - "+storage.get_slaves().get(i).getDream()+"\n");
+                        infoLabel.append("desired salary - "+storage.get_slaves().get(i).GetDesiredSalary()+"\n");
+                        infoLabel.append("hierd - "+ storage.get_slaves().get(i).getstatus()+"\n");
                         infoLabel.append("--------------\n");
                     }
                     //System.out.println(ans);
@@ -104,12 +106,12 @@ public class dz2 {
                 }
                 if (e.getSource() == bossesButton) {
                     //String ans = new String();
-                    for(int i =0; i< boss_list.size(); i++){
+                    for(int i =0; i< storage.get_bosses().size(); i++){
                         infoLabel.append("--------------\n");
-                        infoLabel.append("Name - "+boss_list.get(i).getName()+"\n");
-                        infoLabel.append("age - "+boss_list.get(i).getAge()+"\n");
-                        for(int j = 0; j< boss_list.get(i).getComps().size();j++){
-                            infoLabel.append(boss_list.get(i).getComps().get(j).getName()+"\n");
+                        infoLabel.append("Name - "+storage.get_bosses().get(i).getName()+"\n");
+                        infoLabel.append("age - "+storage.get_bosses().get(i).getAge()+"\n");
+                        for(int j = 0; j< storage.get_bosses().get(i).getComps().size();j++){
+                            infoLabel.append(storage.get_bosses().get(i).getComps().get(j).getName()+"\n");
                         }
                         infoLabel.append("--------------\n");
                     }
@@ -117,19 +119,19 @@ public class dz2 {
                     infoLabel.setEditable(false);
                 }
                 /*if (e.getSource() == organizationsButton) {
-                    for(int i =0; i< orgs_list.size(); i++){
+                    for(int i =0; i< storage.get_orgs().size(); i++){
                         infoLabel.append("--------------\n");
-                        infoLabel.append("Name - "+orgs_list.get(i).getName()+"\n");
-                        for(int j = 0; j< orgs_list.get(i).getBosses().size();j++){
-                            infoLabel.append(orgs_list.get(i).getBosses().get(j).getName()+"\n");
+                        infoLabel.append("Name - "+storage.get_orgs().get(i).getName()+"\n");
+                        for(int j = 0; j< storage.get_orgs().get(i).getBosses().size();j++){
+                            infoLabel.append(storage.get_orgs().get(i).getBosses().get(j).getName()+"\n");
                         }
                         infoLabel.append("вакансии:\n");
-                        for(int j = 0; j<orgs_list.get(i).getVacancies().size(); j++){
-                            infoLabel.append(orgs_list.get(i).getVacancies().get(j)+"\n");
+                        for(int j = 0; j<storage.get_orgs().get(i).getVacancies().size(); j++){
+                            infoLabel.append(storage.get_orgs().get(i).getVacancies().get(j)+"\n");
                         }
                         infoLabel.append("Работники: \n");
-                        for(int j = 0; j<orgs_list.get(i).getSlaves().size(); j++){
-                            infoLabel.append(orgs_list.get(i).getSlaves().get(j).getName()+"\n");
+                        for(int j = 0; j<storage.get_orgs().get(i).getSlaves().size(); j++){
+                            infoLabel.append(storage.get_orgs().get(i).getSlaves().get(j).getName()+"\n");
                         }
                         infoLabel.append("--------------\n");
                     }
@@ -156,8 +158,8 @@ public class dz2 {
                 p.setLayout(new GridLayout(20,20));
 
                 JComboBox cb = new JComboBox();
-                for(int i =0; i<slave_list.size(); i++){
-                    cb.addItem(slave_list.get(i).getName());
+                for(int i =0; i<storage.get_slaves().size(); i++){
+                    cb.addItem(storage.get_slaves().get(i).getName());
                 }
                 JButton enter = new JButton("выбрать");
                 enter.addActionListener(new ActionListener() {
@@ -168,14 +170,14 @@ public class dz2 {
 
                         JTextArea ans = new JTextArea();
 
-                        for(int i =0; i< slave_list.size(); i++) {
-                            if (slave_list.get(i).getName() == cb.getSelectedItem()) {
+                        for(int i =0; i< storage.get_slaves().size(); i++) {
+                            if (storage.get_slaves().get(i).getName() == cb.getSelectedItem()) {
                                 ans.append("--------------\n");
-                                ans.append("Name- " + slave_list.get(i).getName() + "\n");
-                                ans.append("experience - " + slave_list.get(i).getExp() + "\n");
-                                ans.append("dream job - " + slave_list.get(i).getDream() + "\n");
-                                ans.append("desired salary - " + slave_list.get(i).GetDesiredSalary() + "\n");
-                                ans.append("hierd - " + slave_list.get(i).getstatus() + "\n");
+                                ans.append("Name- " + storage.get_slaves().get(i).getName() + "\n");
+                                ans.append("experience - " + storage.get_slaves().get(i).getExp() + "\n");
+                                ans.append("dream job - " + storage.get_slaves().get(i).getDream() + "\n");
+                                ans.append("desired salary - " + storage.get_slaves().get(i).GetDesiredSalary() + "\n");
+                                ans.append("hierd - " + storage.get_slaves().get(i).getstatus() + "\n");
                                 ans.append("--------------\n");
                             }
                         }
@@ -202,8 +204,8 @@ public class dz2 {
                 p.setLayout(new GridLayout(20,20));
 
                 JComboBox cb = new JComboBox();
-                for(int i =0; i<orgs_list.size(); i++){
-                    cb.addItem(orgs_list.get(i).getName());
+                for(int i =0; i<storage.get_orgs().size(); i++){
+                    cb.addItem(storage.get_orgs().get(i).getName());
                 }
                 JButton enter = new JButton("выбрать");
                 enter.addActionListener(new ActionListener() {
@@ -214,22 +216,22 @@ public class dz2 {
 
                         JTextArea ans = new JTextArea();
 
-                        for(int i = 0; i< orgs_list.size(); i++){
-                            if (orgs_list.get(i).getName() == cb.getSelectedItem()){
+                        for(int i = 0; i< storage.get_orgs().size(); i++){
+                            if (storage.get_orgs().get(i).getName() == cb.getSelectedItem()){
                                 ans.append("--------------------------------\n");
-                                ans.append(orgs_list.get(i).getName()+"\n");
+                                ans.append(storage.get_orgs().get(i).getName()+"\n");
                                 ans.append("-------------bossы--------------\n");
-                                for(int j = 0; j < orgs_list.get(i).getBosses().size(); j++){
-                                    ans.append(orgs_list.get(i).getBosses().get(j).getName()+"\n");
+                                for(int j = 0; j < storage.get_orgs().get(i).getBosses().size(); j++){
+                                    ans.append(storage.get_orgs().get(i).getBosses().get(j).getName()+"\n");
                                 }
                                 ans.append("-------------Работники----------\n");
-                                for(int j = 0; j < orgs_list.get(i).getSlaves().size(); j++){
-                                    ans.append(orgs_list.get(i).getSlaves().get(j).getName()+"\n");
+                                for(int j = 0; j < storage.get_orgs().get(i).getSlaves().size(); j++){
+                                    ans.append(storage.get_orgs().get(i).getSlaves().get(j).getName()+"\n");
                                 }
                                 ans.append("-------------Вакансии-----------\n");
-                                    orgs_list.get(i).info();
-
-                                ans.append(orgs_list.get(i).getName()+"\n");
+                                for (int j = 0; j < storage.get_orgs().get(i).getVacancies().size(); j++) {
+                                    ans.append(storage.get_orgs().get(i).getVacancies().get(j) + "\n");
+                                }
 
                             }
                         }
@@ -256,8 +258,8 @@ public class dz2 {
                 p.setLayout(new GridLayout(20,20));
 
                 JComboBox cb = new JComboBox();
-                for(int i =0; i<boss_list.size(); i++){
-                    cb.addItem(boss_list.get(i).getName());
+                for(int i =0; i<storage.get_bosses().size(); i++){
+                    cb.addItem(storage.get_bosses().get(i).getName());
                 }
                 JButton enter = new JButton("выбрать");
                 enter.addActionListener(new ActionListener() {
@@ -268,17 +270,17 @@ public class dz2 {
 
                         JTextArea ans = new JTextArea();
 
-                        for(int i = 0; i< boss_list.size(); i++){
-                            if (boss_list.get(i).getName() == cb.getSelectedItem()){
+                        for(int i = 0; i< storage.get_bosses().size(); i++){
+                            if (storage.get_bosses().get(i).getName() == cb.getSelectedItem()){
                                 ans.append("--------------------------------\n");
-                                ans.append(boss_list.get(i).getName()+"\n");
+                                ans.append(storage.get_bosses().get(i).getName()+"\n");
                                 ans.append("-------------Оргии--------------\n");
-                                for(int j = 0; j < boss_list.get(i).getComps().size(); j++){
-                                    ans.append(boss_list.get(i).getComps().get(j).getName()+"\n");
+                                for(int j = 0; j < storage.get_bosses().get(i).getComps().size(); j++){
+                                    ans.append(storage.get_bosses().get(i).getComps().get(j).getName()+"\n");
                                 }
-                                orgs_list.get(i).info();
 
-                                ans.append(orgs_list.get(i).getName()+"\n");
+
+                                //ans.append(storage.get_orgs().get(i).getName()+"\n");
 
                             }
                         }
@@ -328,7 +330,7 @@ public class dz2 {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         try{
-                            addslave(nameField.getText(), Integer.parseInt(ageField.getText()), Integer.parseInt(experienceField.getText()),  Integer.parseInt(salaryField.getText()), dreamJobField.getText());
+                            storage.addslave(nameField.getText(), Integer.parseInt(ageField.getText()), Integer.parseInt(experienceField.getText()),  Integer.parseInt(salaryField.getText()), dreamJobField.getText());
                             addEmployeeFrame.dispose();
                             mainFrame.setVisible(true);
                         }
@@ -390,7 +392,7 @@ public class dz2 {
                 });
                 //панель
                 JPanel bosspanel = new JPanel();
-                bosspanel.setLayout(new GridLayout(orgs_list.size()+4, 2));
+                bosspanel.setLayout(new GridLayout(storage.get_orgs().size()+4, 2));
                 bosspanel.add(new JLabel("Имя:"));
                 bosspanel.add(nameField);
                 bosspanel.add(new JLabel("Возраст:"));
@@ -399,25 +401,25 @@ public class dz2 {
                 ArrayList <JCheckBox> checkBoxes = new ArrayList<JCheckBox>();
                 ArrayList <Organization> selected = new ArrayList<Organization>();
                 // чекбоксы
-                for (int i=0; i < orgs_list.size(); i++) {
-                    JCheckBox c = new JCheckBox(orgs_list.get(i).getName());
+                for (int i=0; i < storage.get_orgs().size(); i++) {
+                    JCheckBox c = new JCheckBox(storage.get_orgs().get(i).getName());
                     c.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             JCheckBox cb = (JCheckBox) e.getSource();
                             if (cb.isSelected()){
-                                for(int i = 0; i< orgs_list.size();i++){
-                                    if (orgs_list.get(i).getName() == cb.getText()){
-                                        selected.add(orgs_list.get(i));
+                                for(int i = 0; i< storage.get_orgs().size();i++){
+                                    if (storage.get_orgs().get(i).getName() == cb.getText()){
+                                        selected.add(storage.get_orgs().get(i));
                                     }
                                 }
 
                             }
                             else{
-                                //for(int i = 0; i< orgs_list.size();i++){
-                                    //if (orgs_list.get(i).getName() == cb.getText()){
-                                        //selected.remove();
-                                    //}
+                                //for(int i = 0; i< storage.get_orgs().size();i++){
+                                //if (storage.get_orgs().get(i).getName() == cb.getText()){
+                                //selected.remove();
+                                //}
                                 //}
                             }
                         }
@@ -433,7 +435,7 @@ public class dz2 {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         try {
-                            addboss(nameField.getText(), Integer.parseInt(ageField.getText()), selected);
+                            storage.addboss(nameField.getText(), Integer.parseInt(ageField.getText()), selected);
                             addbossframe.dispose(); // Закрываем текущее окно
                             mainFrame.setVisible(true);
                         }catch(Exception ex){
@@ -466,7 +468,7 @@ public class dz2 {
                 JTextField nameField = new JTextField(10);
 
                 JPanel addOrgPanel = new JPanel();
-                addOrgPanel.setLayout(new GridLayout(slave_list.size() + 1, 1));
+                addOrgPanel.setLayout(new GridLayout(storage.get_slaves().size() + 1, 1));
 
                 addOrgPanel.add(new JLabel("Имя:"));
                 addOrgPanel.add(nameField);
@@ -479,22 +481,22 @@ public class dz2 {
                 ArrayList<JCheckBox> checkBoxes = new ArrayList<JCheckBox>();
                 ArrayList<Boss> selected = new ArrayList<Boss>();
 
-                for (int i = 0; i < boss_list.size(); i++) {
-                    JCheckBox c = new JCheckBox(boss_list.get(i).getName());
+                for (int i = 0; i < storage.get_bosses().size(); i++) {
+                    JCheckBox c = new JCheckBox(storage.get_bosses().get(i).getName());
                     c.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             JCheckBox cb = (JCheckBox) e.getSource();
                             if (cb.isSelected()) {
-                                for (int i = 0; i < boss_list.size(); i++) {
-                                    if (boss_list.get(i).getName() == cb.getText()) {
-                                        selected.add(boss_list.get(i));
+                                for (int i = 0; i < storage.get_bosses().size(); i++) {
+                                    if (storage.get_bosses().get(i).getName() == cb.getText()) {
+                                        selected.add(storage.get_bosses().get(i));
                                     }
                                 }
 
                             } else {
-                                //for(int i = 0; i< orgs_list.size();i++){
-                                //if (orgs_list.get(i).getName() == cb.getText()){
+                                //for(int i = 0; i< storage.get_orgs().size();i++){
+                                //if (storage.get_orgs().get(i).getName() == cb.getText()){
                                 //selected.remove();
                                 //}
                                 //}
@@ -522,7 +524,7 @@ public class dz2 {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         try {
-                            addorg(nameField.getText(), selected);
+                            storage.addorg(nameField.getText(), selected);
 
                             addOrgFrame.dispose(); // Закрываем текущее окно
                             mainFrame.setVisible(true);
@@ -555,12 +557,12 @@ public class dz2 {
                 ArrayList <JButton> orgbut = new ArrayList<JButton>();
 
                 JPanel butpanel = new JPanel();
-                butpanel.setLayout(new GridLayout(boss_list.size() + 1, 1));
+                butpanel.setLayout(new GridLayout(storage.get_bosses().size() + 1, 1));
 
-                for(int i=0; i < boss_list.size(); i++){
+                for(int i=0; i < storage.get_bosses().size(); i++){
 
-                    JButton _b = new JButton(boss_list.get(i).getName());
-                    Boss sellected_boss = boss_list.get(i);
+                    JButton _b = new JButton(storage.get_bosses().get(i).getName());
+                    Boss sellected_boss = storage.get_bosses().get(i);
                     _b.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -580,124 +582,129 @@ public class dz2 {
                                 _subb.addActionListener(new ActionListener() {
                                     @Override
                                     public void actionPerformed(ActionEvent e) {
-                                      JFrame subsubf = new JFrame("Пожалуйста, не кликай дальше");
-                                      subsubf.setSize(500, 500);
+                                        JFrame subsubf = new JFrame("Пожалуйста, не кликай дальше");
+                                        subsubf.setSize(500, 500);
 
-                                      JPanel subsubpanel = new JPanel();
-                                      subsubpanel.setLayout(new GridLayout(4,1));
+                                        JPanel subsubpanel = new JPanel();
+                                        subsubpanel.setLayout(new GridLayout(4,1));
 
-                                      JButton addvac = new JButton("Добавить вакансию");
-                                      JButton testslave = new JButton("Нанять раба");
-                                      JButton sellOrg = new JButton("Продать бизнесс");
-                                      JButton killslave = new JButton("Уволить роботягу");
+                                        JButton addvac = new JButton("Добавить вакансию");
+                                        JButton testslave = new JButton("Нанять раба");
+                                        JButton sellOrg = new JButton("Продать бизнесс");
+                                        JButton killslave = new JButton("Уволить роботягу");
 
-                                      addvac.addActionListener(new ActionListener() {
-                                          @Override
-                                          public void actionPerformed(ActionEvent e) {
-                                              JFrame vacf = new JFrame("Перестань пользоваться этими кнопками");
-                                              vacf.setSize(500, 500);
+                                        addvac.addActionListener(new ActionListener() {
+                                            @Override
+                                            public void actionPerformed(ActionEvent e) {
+                                                JFrame vacf = new JFrame("Перестань пользоваться этими кнопками");
+                                                vacf.setSize(500, 500);
 
-                                              JTextField vacname = new JTextField();
-                                              JTextField reqexp = new JTextField();
-                                              JTextField salary = new JTextField();
+                                                JTextField vacname = new JTextField();
+                                                JTextField reqexp = new JTextField();
+                                                JTextField salary = new JTextField();
 
-                                              JPanel vacp = new JPanel();
-                                              vacp.setLayout(new GridLayout(4, 2));
+                                                JPanel vacp = new JPanel();
+                                                vacp.setLayout(new GridLayout(4, 2));
 
-                                              vacp.add(new JLabel("Название вакансии: "));
-                                              vacp.add(vacname);
-                                              vacp.add(new JLabel("Требуемый опыт: "));
-                                              vacp.add(reqexp);
-                                              vacp.add(new JLabel("Зарплата: "));
-                                              vacp.add(salary);
+                                                vacp.add(new JLabel("Название вакансии: "));
+                                                vacp.add(vacname);
+                                                vacp.add(new JLabel("Требуемый опыт: "));
+                                                vacp.add(reqexp);
+                                                vacp.add(new JLabel("Зарплата: "));
+                                                vacp.add(salary);
 
-                                              JButton enter = new JButton("добавить");
-                                              //добавление вакансии
-                                              enter.addActionListener(new ActionListener() {
-                                                  @Override
-                                                  public void actionPerformed(ActionEvent e) {
-                                                      sellected_comp.addVacancy(vacname.getText(), Integer.parseInt(reqexp.getText()), Integer.parseInt(salary.getText()));
-                                                      vacf.dispose();
-                                                  }
-                                              });
-                                              vacp.add(enter);
+                                                JButton enter = new JButton("добавить");
+                                                //добавление вакансии
+                                                enter.addActionListener(new ActionListener() {
+                                                    @Override
+                                                    public void actionPerformed(ActionEvent e) {
+                                                        for (int i =0; i<storage.get_orgs().size(); i++ ){
+                                                            if (storage.get_orgs().get(i) == sellected_comp){
+                                                                storage.get_orgs().get(i).addVacancy(vacname.getText(), Integer.parseInt(reqexp.getText()), Integer.parseInt(salary.getText()));
+                                                            }
+                                                        }
+                                                        //sellected_comp.addVacancy(vacname.getText(), Integer.parseInt(reqexp.getText()), Integer.parseInt(salary.getText()));
+                                                        vacf.dispose();
+                                                    }
+                                                });
+                                                vacp.add(enter);
 
-                                              vacf.add(vacp);
-                                              vacf.setVisible(true);
+                                                vacf.add(vacp);
+                                                vacf.setVisible(true);
 
-                                          }
-                                      });
-                                      testslave.addActionListener(new ActionListener() {
-                                          @Override
-                                          public void actionPerformed(ActionEvent e) {
-                                              JFrame results = new JFrame();
-                                              results.setSize(500, 500);
+                                            }
+                                        });
+                                        testslave.addActionListener(new ActionListener() {
+                                            @Override
+                                            public void actionPerformed(ActionEvent e) {
+                                                JFrame results = new JFrame();
+                                                results.setSize(500, 500);
 
-                                              JTextArea ans = new JTextArea();
+                                                JTextArea ans = new JTextArea();
 
-                                              for(int k = 0; k< slave_list.size(); k++){
+                                                for(int k = 0; k< storage.get_slaves().size(); k++){
 
-                                                  ans.append(sellected_boss.test(slave_list.get(k), sellected_comp));
-                                              }
-                                              results.add(ans);
-                                              results.setVisible(true);
-                                          }
-                                      });
-                                      sellOrg.addActionListener(new ActionListener() {
-                                          @Override
-                                          public void actionPerformed(ActionEvent e) {
+                                                    ans.append(sellected_boss.test(storage.get_slaves().get(k), sellected_comp));
+                                                }
+                                                results.add(ans);
+                                                results.setVisible(true);
+                                            }
+                                        });
+                                        sellOrg.addActionListener(new ActionListener() {
+                                            @Override
+                                            public void actionPerformed(ActionEvent e) {
 
-                                              sellected_boss.sellComp(sellected_comp);
-                                              sellected_comp.dropBoss(sellected_boss);
-                                          }
-                                      });
-                                      killslave.addActionListener(new ActionListener() {
-                                          @Override
-                                          public void actionPerformed(ActionEvent e) {
-                                              JFrame hit_list_f = new JFrame();
-                                              hit_list_f.setSize(500, 500);
+                                                sellected_boss.sellComp(sellected_comp);
+                                                sellected_comp.dropBoss(sellected_boss);
+                                            }
+                                        });
+                                        killslave.addActionListener(new ActionListener() {
+                                            @Override
+                                            public void actionPerformed(ActionEvent e) {
+                                                JFrame hit_list_f = new JFrame();
+                                                hit_list_f.setSize(500, 500);
 
-                                              ArrayList <Employee> hit_list = new ArrayList<Employee>();
-                                              JPanel p = new JPanel();
-                                              p.setLayout(new GridLayout(sellected_comp.getSlaves().size()+1, 1));
+                                                ArrayList <Employee> hit_list = new ArrayList<Employee>();
+                                                JPanel p = new JPanel();
+                                                p.setLayout(new GridLayout(sellected_comp.getSlaves().size()+1, 1));
 
-                                              for(int i = 0; i< sellected_comp.getSlaves().size(); i++){
-                                                  Employee selected_emp = sellected_comp.getSlaves().get(i);
-                                                  JCheckBox j = new JCheckBox(selected_emp.getName());
-                                                  p.add(j);
-                                                  j.addActionListener(new ActionListener() {
-                                                      @Override
-                                                      public void actionPerformed(ActionEvent e) {
-                                                          hit_list.add(selected_emp);
-                                                      }
-                                                  });
-                                              }
+                                                for(int i = 0; i< sellected_comp.getSlaves().size(); i++){
+                                                    Employee selected_emp = sellected_comp.getSlaves().get(i);
+                                                    JCheckBox j = new JCheckBox(selected_emp.getName());
+                                                    p.add(j);
+                                                    j.addActionListener(new ActionListener() {
+                                                        @Override
+                                                        public void actionPerformed(ActionEvent e) {
+                                                            hit_list.add(selected_emp);
+                                                        }
+                                                    });
+                                                }
 
-                                              JButton enter =  new JButton("Удалить выбранных");
-                                              enter.addActionListener(new ActionListener() {
-                                                  @Override
-                                                  public void actionPerformed(ActionEvent e) {
-                                                      for(int i = 0; i< hit_list.size(); i++){
-                                                          sellected_boss.killSlave(hit_list.get(i));
-                                                      }
-                                                      hit_list_f.setVisible(false);
-                                                  }
-                                              });
-                                              p.add(enter);
+                                                JButton enter =  new JButton("Удалить выбранных");
+                                                enter.addActionListener(new ActionListener() {
+                                                    @Override
+                                                    public void actionPerformed(ActionEvent e) {
+                                                        for(int i = 0; i< hit_list.size(); i++){
+                                                            sellected_boss.killSlave(hit_list.get(i));
+                                                        }
+                                                        hit_list_f.setVisible(false);
+                                                    }
+                                                });
+                                                p.add(enter);
 
-                                              hit_list_f.add(p);
-                                              hit_list_f.setVisible(true);
-                                          }
-                                      });
+                                                hit_list_f.add(p);
+                                                hit_list_f.setVisible(true);
+                                            }
+                                        });
 
-                                      subsubpanel.add(addvac);
-                                      subsubpanel.add(testslave);
-                                      subsubpanel.add(sellOrg);
-                                      subsubpanel.add(killslave);
+                                        subsubpanel.add(addvac);
+                                        subsubpanel.add(testslave);
+                                        subsubpanel.add(sellOrg);
+                                        subsubpanel.add(killslave);
 
-                                      subsubf.add(subsubpanel);
-                                      subsubf.setVisible(true);
-                                      subf.setVisible(false);
+                                        subsubf.add(subsubpanel);
+                                        subsubf.setVisible(true);
+                                        subf.setVisible(false);
                                     }
                                 });
                                 System.out.println("i was here");
@@ -726,10 +733,10 @@ public class dz2 {
                 f.setSize(500,500);
 
                 JPanel p = new JPanel();
-                p.setLayout(new GridLayout(slave_list.size()+1, 1));
+                p.setLayout(new GridLayout(storage.get_slaves().size()+1, 1));
 
-                for(int i = 0; i< slave_list.size(); i++){
-                    Employee selected_slave = slave_list.get(i);
+                for(int i = 0; i< storage.get_slaves().size(); i++){
+                    Employee selected_slave = storage.get_slaves().get(i);
                     JButton b = new JButton(selected_slave.getName());
 
                     b.addActionListener(new ActionListener() {
@@ -763,7 +770,7 @@ public class dz2 {
 
         slaves.addActionListener(slavebutton);
 
-            // Отображаем главное окно
+        // Отображаем главное окно
         mainFrame.setVisible(true);
 
 
